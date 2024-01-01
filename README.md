@@ -1,1 +1,1 @@
-# MERNBlog
+# MERN Stack Blog Editor
