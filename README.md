@@ -172,3 +172,85 @@ is now, retaining the flaticon class but changing the identifier for different i
 <InputBox name="username" type="text" placeholder="Username" icon="fi-rr-user" />
 
 ```
+
+## Page animation:
+
+- Start by creating an AnimationWrapper component and pass children as props
+- This means that child elements inside of the AnimationWrapper component (as it won't be a self closing element) will be affected by whatever functions that we use in the AnimationWrapper component file.
+
+- In this case, we're using it for the userAuthForm and so should wrap the form like so (The form is the child element here):
+
+```
+<AnimationWrapper>
+<form></form>
+</AnimationWrapper>
+```
+
+### Framer-Motion:
+
+- Import the following:
+
+```
+import { AnimatePresence, motion } from "framer-motion";
+```
+
+- Then we convert the AnimationWrapper div into a motion div by pre-pending it to the element tag:
+- Wrap it in AnimatePresence in order to keep track of the animation process:
+
+```
+<AnimatePresence>
+<motion.div>
+{ childen }
+</motion.div>
+</AnimatePresence>
+```
+
+- For the animation itself, we can pass them through as properties and attributes (Remember to pass any props in the function params):
+
+```
+<motion.div
+  initial={initial}
+  animate={animate}
+  transition={transition}>
+
+```
+
+- Initial = Initial value/state
+- We can pass a default value through the props if we don't want to keep declaring one each time:
+
+```
+const AnimationWrapper = ({ initial = { opacity: 0 } })
+```
+
+- Animate - Represents the final state of this component once the animation sequence has run
+- This can also have a default value:
+
+```
+const AnimationWrapper = ({ animate = { opacity: 1 } })
+```
+
+- Transition - Represents the behaviour of the animation, ie: the speed:
+- Can also be passed with a default value:
+
+```
+const AnimationWrapper = ({ transition = { duration: 1.2 } })
+```
+
+- Remember, we need to pass a key prop so that framer-motion can tell when the form has changed to another one, otherwise the animation will only work on initial page load.
+
+```
+key={keyValue}
+```
+
+- This must be passed as a prop and then referenced in the parent component (The AnimationWrapper in the userauthform component):
+- We reference the type here as it switches between /sign-in and /sign-up
+
+```
+<AnimationWrapper keyValue={type}>
+```
+
+- The 'type' is coming from the Route props in App.jsx:
+
+```
+ <Route path="signin" element={<UserAuthForm type="sign-in" />} />
+```
