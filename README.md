@@ -254,3 +254,56 @@ key={keyValue}
 ```
  <Route path="signin" element={<UserAuthForm type="sign-in" />} />
 ```
+
+## Server connection:
+
+- Set the server with express in server > server.js:
+
+```
+import express from "express";
+
+const app = express();
+const PORT = 3000;
+
+app.listen(PORT, () => {
+  console.log(`Port listening on ${PORT}`);
+});
+
+```
+
+## Database connection (MongoDB):
+
+- Import mongoose into server.js
+
+```
+import mongoose from "mongoose";
+mongoose.connect();
+```
+
+- On MongoDB, Create Project
+
+- Deployment > Database > Create Database > M0 > Closest Region
+- Follow the steps for Security quickstart - Make a note of the user and password as these will be needed to access the database
+- Local connection
+- Add current IP addresses to the access list - As we're just doing a local, not real-world project, you can allow access from anywhere.
+- Security > Network Access > Add IP Address > Allow Access from anywhere (It will add the 0.0.0.0/0 address)
+- Back to Deployment > Database > Connect > Drivers > Nodejs > Copy Database link > Paste it into your env file under a DB_URL variable
+
+### Test the connection:
+
+- Use Postman request to test the form:
+
+```
+app.post("/signup", (req, res) => {
+  console.log(req.body)
+  res.json(req.body)
+})
+```
+
+## Remember the middleware!
+
+- After port and before the mongoose connection:
+
+```
+app.use(express.json())
+```
